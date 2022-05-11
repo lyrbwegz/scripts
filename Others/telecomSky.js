@@ -1,5 +1,5 @@
 /*
-* 原作者sunert
+* 原作者Sunert
 */
 const $ = new Env("中国电信 世界触手可及🤝");
 const Y = $.getdata('Mon').slice(0,4)||$.time('yyyy');
