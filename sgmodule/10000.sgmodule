@@ -1,0 +1,12 @@
+#!name= 中国电信
+#!desc= 电信app签到和天翼账号中心查询套餐 by chavyleung & Sunert
+#!system=ios
+
+[Script]
+# > 中国电信
+电信签到 = type=cron,cronexp=0 2 7 * * *,wake-system=1,timeout=60,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/10000/10000.js
+电信签到ck = type=http-request,requires-body=1,pattern=^https:\/\/wapside.189.cn:9001\/jt-sign\/api\/home\/homeInfo,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/10000/10000.cookie.js
+天翼账号ck = type=http-request,pattern=^https?:\/\/e\.189\.cn\/store\/user\/package_detail\.do,script-path=https://raw.githubusercontent.com/lyrbwegz/LYR_Script/LYR/Others/telecomSky.js
+
+[MITM]
+hostname = wapside.189.cn, e.189.cn
