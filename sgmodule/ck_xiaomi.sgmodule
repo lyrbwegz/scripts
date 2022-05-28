@@ -1,0 +1,11 @@
+#!name=小米运动
+#!desc=更新时间 2021-08-08 13:43:28
+#!system=ios
+
+# > 小米运动
+[Script]
+小米运动 = type=cron,cronexp="0 8 * * *",wake-system=1,timeout=60,script-path=https://raw.githubusercontent.com/lyrbwegz/LYR_Script/LYR/Others/xmbs.js
+小米运动获取Token = type=http-response,pattern=^https:\/\/account\.huami\.com\/v2\/client\/login,requires-body=1,script-path=https://raw.githubusercontent.com/lyrbwegz/LYR_Script/LYR/Others/xmbs.js
+
+[MITM]
+hostname = account.huami.com
