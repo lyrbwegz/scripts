@@ -1,0 +1,10 @@
+#!name= 京粉转链
+#!desc= by Tartarus2014
+#!system=ios
+
+[Script]
+# > 京粉转链
+京粉转链 = type=http-response,pattern=^https?://api\.m\.jd\.com/(client\.action|api)\?functionId=(wareBusiness|serverConfig|basicConfig|lite_wareBusiness|pingou_item),requires-body=1,script-path=https://raw.githubusercontent.com/Tartarus2014/Script/master/jdjf_price.js
+
+[MITM]
+hostname = api.m.jd.com
