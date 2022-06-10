@@ -1,8 +1,8 @@
 /*
-更新时间: 2021-12-14 22:10
+更新时间: 2022-06-10 By FoKit 
+author：Sunert
 
-本脚本仅适用于微博每日签到，支持多账号运行  
-
+本脚本仅适用于微博每日签到，支持多账号运行
 
 获取ck: https:\/\/m?api\.weibo\.c(n|om)\/\d\/users\/show url script-request-header weibo.js
 */
@@ -13,7 +13,8 @@ let tokenArr = [],  cookieArr = [];
 let wbtoken = $.getdata('sy_token_wb');
 let cookies = $.getdata('wb_cookie');
 let signcash = "";
-  
+let myPaybag = "";
+
 
 if (isGetCookie = typeof $request !== `undefined`) {
     GetCookie();
@@ -80,7 +81,7 @@ if (isGetCookie = typeof $request !== `undefined`) {
                     token = "&from=10B3193010"+token
                 }
                 await getsign();
-                await doCard();
+                await myJifen();
                 await paysign();
                 await showmsg()
             }
@@ -128,8 +129,9 @@ function GetCookie() {
             }
         }
     }
-    //微博签到
 
+
+//微博签到
 function getsign() {
     return new Promise((resolve, reject) => {
         let signurl = {
@@ -141,16 +143,16 @@ function getsign() {
         $.get(signurl, async(error, resp, data) => {
             let result = JSON.parse(data)
             if (result.status == 10000) {
-                wbsign = `【微博签到】 ✅ 连续签到${result.data.continuous}天，收益:${result.data.desc}\n`
+                wbsign = `每日签到：连续签到 ${result.data.continuous} 天，获得 ${result.data.desc} 元`
             } else if (result.errno == 30000) {
-                wbsign = `【每日签到】 🔁 已签到\n`
+                wbsign = `每日签到：重复签到`
                 if (cookie) {
                     await getcash()
                 }
             } else if (result.status == 90005) {
-                wbsign = `【每日签到】‼️` + result.msg + '\n'
+                wbsign = `每日签到：` + result.msg
             } else {
-                wbsign = `【每日签到】 ❌ 签到失败，自动清除ck ` + result.errmsg;
+                wbsign = `每日签到：签到失败，自动清除 Cookie ` + result.errmsg;
                 let retoken =  $.getdata('sy_token_wb').replace(token,``)
                 if ((retoken.indexOf("#") == '0')||(retoken.indexOf("\n") == '0')){
                     retoken = retoken.substr(1)
@@ -169,6 +171,7 @@ function getsign() {
     })
 }
 
+// 红包余额
 function getcash() {
     return new Promise((resolve, reject) => {
         let url = {
@@ -181,36 +184,29 @@ function getcash() {
         $.get(url, async(error, resp, data) => {
             let cashres = JSON.parse(data)
             if (cashres.apiCode == 10000) {
-                signcash = " " + cashres.data.header[0].title + cashres.data.header[0].value + "元"
+                signcash = `红包：${cashres.data.header[0].value}元  `
             }
             resolve()
         })
     })
 }
 
-
-function doCard() {
+// 当前积分
+function myJifen() {
     return new Promise((resolve, reject) => {
         let doCardurl = {
-            url: `https://api.weibo.cn/2/!/ug/king_act_home?c=iphone&${token}`,
+            url: `https://luck.sc.weibo.com/aj/jifen/info`,
             headers: {
-                "User-Agent": `Weibo/62823 (iPhone; iOS 15.2; Scale/3.00)`
+                "User-Agent": `Weibo/62823 (iPhone; iOS 15.2; Scale/3.00)`,
+                "Cookie": cookies
             }
         }
         $.get(doCardurl, (error, resp, data) => {
-            //$.log(data)
             let result = JSON.parse(data)
-            if (result.status == 10000) {
-                nickname = "昵称: " + result.data.user.nickname
-                if (tokenArr.length == 1) {
-                    $.setdata(nickname, 'wb_nick')
-                } else {
-                    $.setdata(tokenArr.length + "合一(多账号)", 'wb_nick')
-                }
-                signday = result.data.signin.title.split('<')[0]
-                docard = `【每日打卡】 ✅ ` + signday + '天 积分总计: ' + result.data.user.energy
+            if (result.code === "100000") {
+                myScore = `积分：${result.data.score}  `
             } else {
-                docard = `【每日打卡】 ❌ 活动过期或失效`
+                myScore = `积分：获取失败  `
             }
             resolve()
         })
@@ -223,12 +219,12 @@ function paysign() {
         $.post(payApi('aj/mobile/home/welfare/signin/do?_=' + $.startTime + 10), async(error, resp, data) => {
             let result = JSON.parse(data)
             if (result.status == 1) {
-                paybag = '【微博钱包】 ✅ 获得' + result.score + '积分\n'
+                paybag = '钱包签到：签到成功，获得' + result.score + '积分'
             } else if (result.status == '2') {
-                paybag = `【微博钱包】 🔁 `
+                paybag = `钱包签到：重复签到`
                 await payinfo()
             } else {
-                paybag = `【钱包签到】❌ Cookie失效` + '\n'
+                paybag = `钱包签到：Cookie失效`
             }
             resolve()
 
@@ -244,18 +240,20 @@ function payApi(api) {
             'Connection': 'keep-alive',
             'Content-Type': 'application/x-www-form-urlencoded',
             'Host': 'pay.sc.weibo.com',
+            'Referer': 'https://pay.sc.weibo.com/center/mobile/task/index',
             'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 15_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Weibo (iPhone12,3__weibo__11.12.2__iphone__os15.2)'
         },
         body: token + '&lang=zh_CN&wm=3333_2001'
     }
 }
 
+// 钱包余额
 function payinfo() {
     return new Promise((resolve, reject) => {
         $.post(payApi('api/client/sdk/app/balance'), (error, resp, data) => {
             let paynum = JSON.parse(data)
             if (paynum.code == 100000) {
-                paybag += '现金:' + paynum.data.balance + ' 元\n'
+                myPaybag = `余额：${paynum.data.balance}元  `
             }
             resolve()
         })
@@ -264,9 +262,9 @@ function payinfo() {
 
 async function showmsg() {
     if (paybag) {
-        $.msg($.name, nickname + (signcash ? signcash : ""), wbsign + paybag + docard);
+        $.msg($.name, wbsign , paybag + "\n" + (signcash ? signcash : "") + myPaybag + myScore);
         if ($.isNode()) {
-            await notify.sendNotify($.name, nickname + (signcash ? signcash : "") + '\n' + wbsign + paybag + docard)
+            await notify.sendNotify($.name, wbsign + paybag + "\n" + (signcash ? signcash : "") + "\n" + myPaybag + "\n" + myScore)
         }
     }
 }
