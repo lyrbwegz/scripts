@@ -12,8 +12,8 @@
 天翼账号ck = type=http-request,pattern=^https?:\/\/e\.189\.cn\/store\/user\/package_detail\.do,script-path=https://raw.githubusercontent.com/lyrbwegz/LYR_Script/LYR/Others/telecomSky.js
 
 # > 新浪微博签到
-微博获取用户ck = type=http-request,pattern=https:\/\/api\.weibo\.cn\/\d\/users\/show,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/weibo.js
-微博获取签到ck = type=http-request,pattern=https:\/\/api\.weibo\.cn\/2\/logservice\/attach,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/weibo.js
+微博获取签到ck = type=http-request,pattern=https:\/\/api\.weibo\.cn\/\d\/users\/show,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/weibo.js
+微博获取用户ck = type=http-request,pattern=https:\/\/api\.weibo\.cn\/2\/logservice\/attach,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/weibo.js
 
 # > 小米运动
 小米运动获取Token = type=http-response,pattern=^https:\/\/account\.huami\.com\/v2\/client\/login,requires-body=1,script-path=https://raw.githubusercontent.com/lyrbwegz/LYR_Script/LYR/Others/xmbs.js
