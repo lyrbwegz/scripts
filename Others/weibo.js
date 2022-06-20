@@ -21,7 +21,7 @@ hostname = api.weibo.cn
 
 Surge
 [Script]
-# > 新浪微博签到
+# > 微博签到
 获取token = type=http-request,pattern=https:\/\/api\.weibo\.cn\/\d\/users\/show,script-path=https://raw.githubusercontent.com/lyrbwegz/scripts/LYR/Others/weibo.js
 获取ck    = type=http-request,pattern=https:\/\/api\.weibo\.cn\/2\/logservice\/attach,script-path=https://raw.githubusercontent.com/lyrbwegz/scripts/LYR/Others/weibo.js
 
