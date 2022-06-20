@@ -1,29 +1,30 @@
 /*
- * 更新时间: 2021-8-8 13:43:28
- */
-/*
-小米运动修改微信支付宝运动步数
-APP Store下载小米运动APP
-登入小米运动(登录方式必须是手机号码+密码(没有就用手机号码注册),下面的第三方账号(小米账号,Apple,微信)授权登录不行)
-登录成功后在 我的->第三方接入->绑定支付宝,微信
-小米运动只要不退出登录，就会自动获取新的token,即永久有效
+脚本名：小米运动
+更新时间: 2021-8-8 13:43:28
+====================================================================================================
+脚本说明：
+
+APP Store下载小米运动APP（现已更名Zepp Life）
+登入小米运动(登录方式必须是手机号码+密码(没有就用手机号码注册),下面的第三方账号(小米账号,Apple,微信)授权登录不行),登录成功后在 我的->第三方接入->绑定支付宝,微信
+运行脚本前先获取token,获取后只要不退出登录，token一直有效，获取token后可关闭重写或模块
+
+QX
+[task_local]
+15 17 * * * https://raw.githubusercontent.com/lyrbwegz/scripts/LYR/Others/xmbs.js, tag=小米运动, img-url=https://raw.githubusercontent.com/Former-Years/icon/master/xmyd.png, enabled=true
+[rewrite_local]
+^https:\/\/account\.huami\.com\/v2\/client\/login url script-response-body https://raw.githubusercontent.com/lyrbwegz/scripts/LYR/Others/xmbs.js
 [MITM]
 hostname = account.huami.com
+
 Surge
 [Script]
-小米运动 = type=cron,cronexp="15 17 * * *",wake-system=1,timeout=3600,script-path=xmbs.js
-小米运动获取Token = type=http-response,pattern=^https:\/\/account\.huami\.com\/v2\/client\/login, requires-body=1, max-size=0, script-path=backUp/xmbs.js
-圈X
-[task_local]
-# 小米运动
-15 17 * * * xmbs.js, tag=小米运动, img-url=https://raw.githubusercontent.com/Former-Years/icon/master/xmyd.png, enabled=true
-[rewrite_local]
-# 小米运动获取Token
-^https:\/\/account\.huami\.com\/v2\/client\/login url script-response-body xmbs.js
-Loon
-[Script]
-cron "15 17 * * *" script-path=xmbs.js, tag=小米运动
-http-response ^https:\/\/account\.huami\.com\/v2\/client\/login script-path=xxmbs.js, requires-body=true, timeout=3600, tag=小米运动获取Token
+获取Token = type=http-response,pattern=^https:\/\/account\.huami\.com\/v2\/client\/login, requires-body=1, max-size=0, script-path=https://raw.githubusercontent.com/lyrbwegz/scripts/LYR/Others/xmbs.js
+
+小米运动 = type=cron,wake-system=1,script-path=https://raw.githubusercontent.com/lyrbwegz/scripts/LYR/Others/xmbs.js,script-update-interval=0, timeout=300
+
+[MITM]
+hostname = account.huami.com
+====================================================================================================
  */
 
 const $ = new Env('小米运动');
