@@ -12,20 +12,20 @@
 
 QX
 [task_local]
-0 6 7 * * * https://raw.githubusercontent.com/lyrbwegz/LYR_Script/LYR/Others/weibo.js, tag=微博签到, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/weibo.png, enabled=true
+0 6 7 * * * https://raw.githubusercontent.com/lyrbwegz/scripts/LYR/Others/weibo.js, tag=微博签到, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/weibo.png, enabled=true
 [rewrite_local]
-https:\/\/api\.weibo\.cn\/\d\/users\/show url script-request-header https://raw.githubusercontent.com/lyrbwegz/LYR_Script/LYR/Others/weibo.js
-https:\/\/api\.weibo\.cn\/2\/logservice\/attach url script-request-header https://raw.githubusercontent.com/lyrbwegz/LYR_Script/LYR/Others/weibo.js
+https:\/\/api\.weibo\.cn\/\d\/users\/show url script-request-header https://raw.githubusercontent.com/lyrbwegz/scripts/LYR/Others/weibo.js
+https:\/\/api\.weibo\.cn\/2\/logservice\/attach url script-request-header https://raw.githubusercontent.com/lyrbwegz/scripts/LYR/Others/weibo.js
 [MITM]
 hostname = api.weibo.cn
 
 Surge
 [Script]
 # > 新浪微博签到
-获取token = type=http-request,pattern=https:\/\/api\.weibo\.cn\/\d\/users\/show,script-path=https://raw.githubusercontent.com/lyrbwegz/LYR_Script/LYR/Others/weibo.js
-获取ck    = type=http-request,pattern=https:\/\/api\.weibo\.cn\/2\/logservice\/attach,script-path=https://raw.githubusercontent.com/lyrbwegz/LYR_Script/LYR/Others/weibo.js
+获取token = type=http-request,pattern=https:\/\/api\.weibo\.cn\/\d\/users\/show,script-path=https://raw.githubusercontent.com/lyrbwegz/scripts/LYR/Others/weibo.js
+获取ck    = type=http-request,pattern=https:\/\/api\.weibo\.cn\/2\/logservice\/attach,script-path=https://raw.githubusercontent.com/lyrbwegz/scripts/LYR/Others/weibo.js
 
-微博签到 = type=cron,cronexp=0 6 7 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/lyrbwegz/LYR_Script/LYR/Others/weibo.js,script-update-interval=0, timeout=300
+微博签到 = type=cron,cronexp=0 6 7 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/lyrbwegz/scripts/LYR/Others/weibo.js,script-update-interval=0, timeout=300
 
 [MITM]
 hostname = api.weibo.cn
