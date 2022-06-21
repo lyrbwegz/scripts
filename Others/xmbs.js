@@ -10,7 +10,7 @@ APP Store下载小米运动APP（现已更名Zepp Life）
 
 QX
 [task_local]
-15 17 * * * https://raw.githubusercontent.com/lyrbwegz/scripts/LYR/Others/xmbs.js, tag=小米运动, img-url=https://raw.githubusercontent.com/Former-Years/icon/master/xmyd.png, enabled=true
+0 1 8 * * * https://raw.githubusercontent.com/lyrbwegz/scripts/LYR/Others/xmbs.js, tag=小米运动, img-url=https://raw.githubusercontent.com/Former-Years/icon/master/xmyd.png, enabled=true
 [rewrite_local]
 ^https:\/\/account\.huami\.com\/v2\/client\/login url script-response-body https://raw.githubusercontent.com/lyrbwegz/scripts/LYR/Others/xmbs.js
 [MITM]
@@ -20,7 +20,7 @@ Surge
 [Script]
 获取Token = type=http-response,pattern=^https:\/\/account\.huami\.com\/v2\/client\/login, requires-body=1, max-size=0, script-path=https://raw.githubusercontent.com/lyrbwegz/scripts/LYR/Others/xmbs.js
 
-小米运动 = type=cron,wake-system=1,script-path=https://raw.githubusercontent.com/lyrbwegz/scripts/LYR/Others/xmbs.js,script-update-interval=0, timeout=300
+小米运动 = type=cron,cronexp=0 1 8 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/lyrbwegz/scripts/LYR/Others/xmbs.js,script-update-interval=0, timeout=300
 
 [MITM]
 hostname = account.huami.com
